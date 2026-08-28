@@ -14,6 +14,9 @@ $_SESSION["user_id"] = $user["id"];
 $_SESSION["full_name"] = $user["full_name"];
 $_SESSION["email"] = $user["email"];
 $_SESSION["role"] = $user["role"];
-header("Location: ../" . ($user["role"] === "lecturer" ? "lecturer/results.php" : "student/index.php"));
+$destination = $user["role"] === "lecturer"
+	? "lecturer/results.php"
+	: ($user["role"] === "admin" ? "registrar/approve_results.php" : "student/index.php");
+header("Location: ../" . $destination);
 exit;
 ?>

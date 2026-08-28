@@ -47,6 +47,8 @@ The objectives are to:
 - Grade validation.
 - Academic-year capture.
 - Immediate publication of entered results.
+- Results are submitted as drafts and require administrator approval before publication.
+- Current academic term is stored and managed through the `academic_terms` table.
 - Link to edit student details through the authorized hostel administration student record page where permitted.
 
 ### Security
@@ -81,6 +83,7 @@ Academic tables are stored in the shared `rao_hbmis` database:
 - `courses` - course code, title, credits, and active status.
 - `course_registrations` - courses submitted by students for a term.
 - `student_results` - scores, grades, academic years, and publication status.
+- `academic_terms` - active academic terms and their start/end dates.
 
 The `course_registrations` table prevents duplicate registration of the same course by the same student in the same term.
 
@@ -140,14 +143,14 @@ Manual testing should include:
 ## 9. Limitations
 
 - The application currently shares the hostel database rather than using a separate database server.
-- Results are published immediately by lecturers; a registrar approval workflow may be added later.
+- Course and semester administration screens are still limited, although the active-term database model is now in place.
 - Course administration pages for creating and editing courses are not yet included.
 - Email notifications are not required for the academic workflow.
 - The local HTTPS certificate is self-signed and should be replaced for public deployment.
 
 ## 10. Future Enhancements
 
-- Add registrar approval for published results.
+- Add registrar approval for published results beyond the current administrator review page.
 - Add lecturer course assignments so lecturers see only their assigned courses.
 - Add academic transcript downloads in PDF format.
 - Add semester and academic-year management.

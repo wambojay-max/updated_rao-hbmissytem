@@ -31,6 +31,15 @@ CREATE TABLE IF NOT EXISTS courses (
     PRIMARY KEY (id), UNIQUE KEY uq_academic_course_code (code)
 ) ENGINE=InnoDB;
 
+    CREATE TABLE IF NOT EXISTS academic_terms (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        name VARCHAR(30) NOT NULL,
+        starts_on DATE NOT NULL,
+        ends_on DATE NOT NULL,
+        is_current TINYINT(1) NOT NULL DEFAULT 0,
+        PRIMARY KEY (id), UNIQUE KEY uq_term_name (name)
+    ) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS course_registrations (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     student_id INT UNSIGNED NOT NULL,
@@ -49,6 +58,8 @@ CREATE TABLE IF NOT EXISTS student_results (
     score DECIMAL(5,2) NOT NULL,
     grade VARCHAR(5) NOT NULL,
     status ENUM('Draft', 'Published') NOT NULL DEFAULT 'Draft',
+    reviewed_by INT UNSIGNED NULL,
+    reviewed_at DATETIME NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
