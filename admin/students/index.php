@@ -6,8 +6,19 @@ requireRole(["admin", "warden", "staff"]);
 
 require_once "../../config/database.php";
 
-$sql = "SELECT * FROM students ORDER BY id DESC";
-$stmt = $pdo->query($sql);
+$search = trim($_GET["q"] ?? "");
+$page = max(1, (int) ($_GET["page"] ?? 1));
+$perPage = 10;
+$where = $search === "" ? "" : "WHERE student_id LIKE :search OR full_name LIKE :search OR email LIKE :search OR course LIKE :search";
+$countStmt = $pdo->prepare("SELECT COUNT(*) FROM students $where");
+if ($search !== "") $countStmt->execute(["search" => "%$search%"]); else $countStmt->execute();
+$totalPages = max(1, (int) ceil($countStmt->fetchColumn() / $perPage));
+$page = min($page, $totalPages);
+$stmt = $pdo->prepare("SELECT * FROM students $where ORDER BY id DESC LIMIT :limit OFFSET :offset");
+if ($search !== "") $stmt->bindValue(":search", "%$search%", PDO::PARAM_STR);
+$stmt->bindValue(":limit", $perPage, PDO::PARAM_INT);
+$stmt->bindValue(":offset", ($page - 1) * $perPage, PDO::PARAM_INT);
+$stmt->execute();
 
 $students = $stmt->fetchAll();
 
@@ -34,6 +45,11 @@ $students = $stmt->fetchAll();
     </p>
 
     <a href="add.php">+ Add Student</a>
+
+    <form method="GET">
+        <input type="search" name="q" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search students">
+        <button type="submit">Search</button>
+    </form>
 
     <br><br>
 
@@ -97,8 +113,8 @@ $students = $stmt->fetchAll();
 
     &nbsp; | &nbsp;
 
-    <form method="POST" action="delete.php" style="display:inline;"
-          onsubmit="return confirm('Are you sure you want to delete this student?');">
+    <form method="POST" action="delete.php" style="display:inline;">
+        <?php echo csrfField(); ?>
 
         <input type="hidden"
                name="id"
@@ -127,6 +143,11 @@ $students = $stmt->fetchAll();
         <?php endif; ?>
 
     </table>
+
+    <p>Page <?php echo $page; ?> of <?php echo $totalPages; ?>
+        <?php if ($page > 1): ?><a href="?q=<?php echo urlencode($search); ?>&page=<?php echo $page - 1; ?>">Previous</a><?php endif; ?>
+        <?php if ($page < $totalPages): ?><a href="?q=<?php echo urlencode($search); ?>&page=<?php echo $page + 1; ?>">Next</a><?php endif; ?>
+    </p>
 
     <br>
 

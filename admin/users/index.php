@@ -95,10 +95,11 @@ $users = $stmt->fetchAll();
 
     <?php if ((int) $user['id'] !== (int) $_SESSION['user_id']): ?>
 
-        <form method="POST"
+          <form method="POST"
               action="delete.php"
-              style="display:inline;"
-              onsubmit="return confirm('Are you sure you want to delete this user?');">
+                            style="display:inline;">
+
+                        <?php echo csrfField(); ?>
 
             <input
                 type="hidden"

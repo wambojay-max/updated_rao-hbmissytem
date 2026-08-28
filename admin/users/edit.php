@@ -175,6 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Full Name</label>
         <br>
@@ -246,13 +247,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 Warden
             </option>
 
-            <option value="staff"
-                <?php
-                echo $user["role"] === "staff"
-                    ? "selected"
-                    : "";
-                ?>>
+            <option value="staff" <?php echo $user["role"] === "staff" ? "selected" : ""; ?>>
                 Staff
+            </option>
+
+            <option value="student" <?php echo $user["role"] === "student" ? "selected" : ""; ?>>
+                Student
+            </option>
+
+            <option value="lecturer" <?php echo $user["role"] === "lecturer" ? "selected" : ""; ?>>
+                Lecturer
             </option>
 
         </select>

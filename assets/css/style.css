@@ -24,6 +24,38 @@ body {
     margin-bottom: 30px;
 }
 
+.sidebar-user {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    margin: -8px 0 18px;
+    padding: 14px 4px;
+}
+
+.sidebar-user strong,
+.sidebar-user span {
+    display: block;
+}
+
+.sidebar-user strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-user span {
+    color: lightgray;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.sidebar-user .sidebar-user-label {
+    color: silver;
+    font-size: 11px;
+    margin-top: 0;
+    text-transform: uppercase;
+}
+
 .sidebar a {
     display: block;
     color: lightgray;
@@ -120,6 +152,52 @@ body {
         position: relative;
         width: 100%;
         height: auto;
+        padding: 18px 16px 14px;
+    }
+
+    .sidebar h2 {
+        font-size: 24px;
+        line-height: 1.1;
+        margin: 0 0 14px;
+    }
+
+    .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        padding: 10px 4px;
+    }
+
+    .sidebar-user .sidebar-user-label {
+        display: none;
+    }
+
+    .sidebar-user strong,
+    .sidebar-user span:not(.sidebar-user-label) {
+        display: inline;
+        margin: 0;
+    }
+
+    .sidebar-user strong::after {
+        content: " · ";
+        color: silver;
+    }
+
+    .sidebar a {
+        display: inline-block;
+        padding: 9px 12px;
+        margin: 0 4px 5px 0;
+        font-size: 14px;
+    }
+
+    .sidebar .section-title {
+        margin: 12px 0 5px;
+        width: 100%;
+    }
+
+    .sidebar .logout {
+        margin-top: 8px;
     }
 
     .main-content {
@@ -223,3 +301,49 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.portal-body { background: #f4f1ea; color: #17201d; font-family: Georgia, serif; }
+.portal-topbar { background: #173b35; color: #fff; min-height: 72px; padding: 0 6vw; display: flex; align-items: center; justify-content: space-between; font-family: Arial, sans-serif; }
+.portal-brand { color: #fff; text-decoration: none; font-weight: bold; font-size: 18px; }
+.portal-brand span { color: #edb86b; margin-right: 8px; }
+.portal-user { display: flex; align-items: center; gap: 22px; font-size: 13px; }
+.portal-user a { color: #edb86b; text-decoration: none; }
+.portal-main { max-width: 1180px; margin: 0 auto; padding: 58px 24px 80px; }
+.portal-intro { display: flex; justify-content: space-between; align-items: end; margin-bottom: 28px; }
+.eyebrow { color: #b4603d; font: bold 11px Arial, sans-serif; letter-spacing: .14em; margin: 0 0 10px; }
+.portal-intro h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1; margin: 0 0 14px; font-weight: normal; }
+.portal-intro p:not(.eyebrow) { color: #59635d; font: 15px Arial, sans-serif; }
+.student-code { border-left: 3px solid #edb86b; padding: 12px 0 12px 16px; color: #68716b; font: 12px Arial, sans-serif; }
+.student-code strong { display: block; color: #173b35; font-size: 18px; margin-top: 6px; }
+.portal-notice { background: #fff4db; border-left: 4px solid #edb86b; padding: 14px 16px; margin-bottom: 24px; font: 14px Arial, sans-serif; }
+.portal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #d7d2c7; margin-bottom: 26px; }
+.portal-stats div { background: #fffdf8; padding: 20px 22px; }
+.portal-stats span { display: block; color: #727a74; font: 11px Arial, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+.portal-stats strong { display: block; font-size: 22px; font-weight: normal; margin-top: 9px; }
+.portal-grid { display: grid; grid-template-columns: 1.35fr .8fr; gap: 26px; }
+.portal-panel { background: #fffdf8; padding: 26px; border: 1px solid #e2ddd2; }
+.portal-panel-wide { min-width: 0; }
+.panel-heading { display: flex; justify-content: space-between; margin-bottom: 22px; }
+.panel-heading h2 { font-size: 24px; font-weight: normal; margin: 0; }
+.allocation-callout { border: 1px solid #d9c5a2; background: #fff8e9; padding: 22px; }
+.allocation-callout strong { display: block; color: #173b35; font-size: 29px; font-weight: normal; }
+.allocation-callout span { display: block; color: #66716a; font: 13px Arial, sans-serif; margin-top: 7px; }
+.room-request { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 12px; align-items: end; font: 12px Arial, sans-serif; }
+.room-request label { color: #59635d; }
+.room-request select, .room-request input { display: block; width: 100%; margin-top: 7px; padding: 12px; border: 1px solid #cfc9bd; background: #fff; font: inherit; }
+.room-request button { padding: 13px 18px; border: 0; background: #b4603d; color: white; cursor: pointer; font: bold 12px Arial, sans-serif; }
+.profile-list { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px 8px; margin: 0; font: 13px Arial, sans-serif; }
+.profile-list dt { color: #818781; }.profile-list dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.portal-table-wrap { overflow-x: auto; }.portal-table { width: 100%; border-collapse: collapse; font: 13px Arial, sans-serif; }.portal-table th { color: #818781; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; text-align: left; padding: 0 12px 12px; }.portal-table td { border-top: 1px solid #ebe7df; padding: 14px 12px; white-space: nowrap; }.portal-table td:first-child { padding-left: 0; }.portal-table small, .payment-list small { display: block; color: #90968f; margin-top: 5px; }.status { padding: 5px 8px; font-size: 10px; }.status-pending { background: #fff0c9; color: #90620e; }.status-confirmed { background: #dceee6; color: #176447; }.status-cancelled { background: #f8dfd9; color: #a34431; }.text-button { color: #b4603d; background: none; border: 0; cursor: pointer; font: inherit; }.empty-state { color: #89918b; padding-left: 0 !important; }.payment-list > div { display: flex; justify-content: space-between; border-top: 1px solid #ebe7df; padding: 13px 0; font: 13px Arial, sans-serif; }.payment-list strong { font-weight: normal; color: #173b35; }
+@media (max-width: 760px) { .portal-topbar { padding: 0 20px; }.portal-user span { display: none; }.portal-main { padding: 35px 16px; }.portal-intro { display: block; }.student-code { margin-top: 25px; }.portal-stats { grid-template-columns: 1fr; }.portal-grid { grid-template-columns: 1fr; }.room-request { grid-template-columns: 1fr; } }
+.student-service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 34px 0; }
+.student-service-card { background: #fffdf8; border: 1px solid #e2ddd2; color: #17201d; min-height: 260px; padding: 26px; text-decoration: none; display: flex; flex-direction: column; transition: transform .2s ease, border-color .2s ease; }
+.student-service-card:hover { transform: translateY(-4px); border-color: #b4603d; }
+.service-number { color: #b4603d; font: bold 12px Arial, sans-serif; letter-spacing: .12em; }
+.student-service-card h2 { font-size: 28px; font-weight: normal; margin: 42px 0 12px; }
+.student-service-card p { color: #68716b; font: 14px Arial, sans-serif; line-height: 1.5; margin: 0; }
+.student-service-card strong { color: #b4603d; font: bold 12px Arial, sans-serif; margin-top: auto; }
+.service-accommodation { background: #173b35; border-color: #173b35; color: white; }.service-accommodation p { color: #d6e1da; }.service-accommodation strong { color: #edb86b; }
+.portal-summary h2 { font-size: 26px; font-weight: normal; margin: 0 0 8px; }.portal-summary p { color: #68716b; font: 14px Arial, sans-serif; }
+.course-list { border-top: 1px solid #ebe7df; }.course-row { display: flex; justify-content: space-between; align-items: center; gap: 18px; border-bottom: 1px solid #ebe7df; padding: 16px 0; font: 13px Arial, sans-serif; }.course-row strong, .course-row small { display: block; }.course-row small { color: #89918b; margin-top: 5px; }.course-row button { background: #b4603d; border: 0; color: #fff; cursor: pointer; padding: 9px 12px; font: bold 11px Arial, sans-serif; white-space: nowrap; }.lecturer-page { max-width: 1100px; margin: 0 auto; }.lecturer-form { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font: 12px Arial, sans-serif; }.lecturer-form label { color: #68716b; }.lecturer-form input, .lecturer-form select { display: block; width: 100%; margin-top: 6px; padding: 11px; border: 1px solid #cfc9bd; }.lecturer-form button { align-self: end; padding: 12px; border: 0; background: #b4603d; color: #fff; cursor: pointer; font-weight: bold; }
+@media (max-width: 760px) { .student-service-grid { grid-template-columns: 1fr; }.student-service-card { min-height: 210px; }.student-service-card h2 { margin-top: 28px; }.lecturer-form { grid-template-columns: 1fr; } }

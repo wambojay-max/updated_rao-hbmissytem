@@ -20,6 +20,7 @@ if (!$id) {
 
 $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = :id");
 $stmt->execute(["id" => $id]);
+audit($pdo, "delete", "booking", (int) $id);
 
 header("Location: index.php");
 exit;

@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once "config/security.php";
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: auth/login.php");
@@ -9,6 +9,7 @@ if (!isset($_SESSION["user_id"])) {
 
 $full_name = $_SESSION["full_name"];
 $role = $_SESSION["role"];
+
 require_once "config/database.php";
 $totalStudents = $pdo
     ->query("SELECT COUNT(*) FROM students")
@@ -70,6 +71,12 @@ $totalPaid = $pdo
     <div class="sidebar">
 
         <h2>RAO Hostel Booking and Management Information System</h2>
+
+        <div class="sidebar-user">
+            <span class="sidebar-user-label">Signed in as</span>
+            <strong><?php echo htmlspecialchars($full_name); ?></strong>
+            <span><?php echo htmlspecialchars(ucfirst($role)); ?></span>
+        </div>
 
         <a href="dashboard.php">
             Dashboard
@@ -266,6 +273,7 @@ $totalPaid = $pdo
                 <h2>AI Hostel Assistant</h2>
                 <p>Ask about current hostel activity and records.</p>
                 <form id="assistant-form">
+                    <?php echo csrfField(); ?>
                     <label for="assistant-question">Question</label>
                     <textarea id="assistant-question" name="question" maxlength="500" required
                               placeholder="Which rooms are available right now?"></textarea>
@@ -278,6 +286,7 @@ $totalPaid = $pdo
                 <h2>Room Recommendations</h2>
                 <p>Generate suggestions for confirmed bookings awaiting allocation.</p>
                 <button id="recommend-rooms" type="button">Recommend rooms</button>
+                <p><a href="admin/allocations/ai_approvals.php">Review saved suggestions</a></p>
                 <div id="room-recommendations" class="ai-result" aria-live="polite"></div>
             </section>
         </div>

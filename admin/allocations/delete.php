@@ -46,6 +46,7 @@ $deleteStmt = $pdo->prepare(
 $deleteStmt->execute([
     "id" => $id
 ]);
+audit($pdo, "delete", "allocation", (int) $id);
 
 /*
  * Make the room available again.

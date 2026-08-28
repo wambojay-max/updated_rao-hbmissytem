@@ -124,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Student ID</label><br>
         <input type="text" name="student_id" required>

@@ -48,7 +48,22 @@ try {
         throw new RuntimeException("AI returned invalid recommendations.");
     }
 
-    echo json_encode(["recommendations" => array_slice($recommendations, 0, 30)]);
+    $saveStmt = $pdo->prepare(
+        "INSERT INTO ai_allocation_suggestions (student_id, room_id, reason, suggested_by)
+         SELECT s.id, r.id, :reason, :suggested_by
+         FROM students s CROSS JOIN rooms r
+         WHERE s.student_id = :student_number AND r.room_number = :room_number
+         LIMIT 1"
+    );
+    foreach (array_slice($recommendations, 0, 30) as $recommendation) {
+        $saveStmt->execute([
+            "reason" => (string) ($recommendation["reason"] ?? "AI recommendation"),
+            "suggested_by" => $_SESSION["user_id"],
+            "student_number" => (string) ($recommendation["student_id"] ?? ""),
+            "room_number" => (string) ($recommendation["room_number"] ?? "")
+        ]);
+    }
+    echo json_encode(["recommendations" => array_slice($recommendations, 0, 30), "message" => "Suggestions saved for approval."]);
 } catch (Throwable $error) {
     http_response_code(503);
     echo json_encode(["error" => $error->getMessage()]);

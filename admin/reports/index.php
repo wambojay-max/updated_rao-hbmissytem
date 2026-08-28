@@ -162,6 +162,13 @@ $totalPaid = $pdo
 
         </div>
 
+        <p>Download spreadsheets:
+            <a href="export.php?type=students">Students</a> |
+            <a href="export.php?type=rooms">Rooms</a> |
+            <a href="export.php?type=bookings">Bookings</a> |
+            <a href="export.php?type=payments">Payments</a>
+        </p>
+
 
         <h2>Students</h2>
 

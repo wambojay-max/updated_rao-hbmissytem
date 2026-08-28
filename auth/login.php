@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once "../config/security.php";
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +17,8 @@ session_start();
 
     <form method="POST" action="login_process.php">
 
+        <?php echo csrfField(); ?>
+
         <label>Email:</label><br>
         <input type="email" name="email" required><br><br>
 
@@ -26,6 +28,9 @@ session_start();
         <button type="submit">Login</button>
 
     </form>
+
+    <p><a href="forgot_password.php">Forgot your password?</a></p>
+    <p><a href="https://localhost/RAVINE_ACADEMIC/auth/login.php">Go to Academic System</a></p>
 
 </body>
 </html>

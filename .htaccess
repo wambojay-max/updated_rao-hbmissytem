@@ -1,0 +1,10 @@
+# Local XAMPP runtime configuration. Replace the password before production deployment.
+SetEnv DB_HOST 127.0.0.1
+SetEnv DB_NAME rao_hbmis
+SetEnv DB_USER rao_app
+SetEnv DB_PASSWORD rao_hbmis_change_this_password
+SetEnv DB_CHARSET utf8mb4
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# Local XAMPP runtime configuration. Replace the password before production deployment.

@@ -2,7 +2,7 @@
 
 require_once "../../auth/check_role.php";
 
-requireRole(["admin", "warden"]);
+requireRole(["admin", "warden", "lecturer"]);
 
 require_once "../../config/database.php";
 
@@ -108,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Student ID</label><br>
         <input

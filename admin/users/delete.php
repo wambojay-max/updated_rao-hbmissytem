@@ -33,6 +33,7 @@ $stmt = $pdo->prepare(
 $stmt->execute([
     "id" => $id
 ]);
+audit($pdo, "delete", "user", (int) $id);
 
 header("Location: index.php");
 exit;

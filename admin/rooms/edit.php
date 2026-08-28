@@ -133,6 +133,7 @@ if (
     <?php endif; ?>
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Room Number</label><br>
         <input

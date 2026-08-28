@@ -162,6 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Student</label>
         <br>

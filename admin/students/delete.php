@@ -27,6 +27,7 @@ try {
     $stmt->execute([
         "id" => $id
     ]);
+    audit($pdo, "delete", "student", (int) $id);
 
 } catch (PDOException $e) {
 

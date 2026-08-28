@@ -25,6 +25,7 @@ $stmt = $pdo->prepare(
 $stmt->execute([
     "id" => $id
 ]);
+audit($pdo, "delete", "payment", (int) $id);
 
 header("Location: index.php");
 exit;

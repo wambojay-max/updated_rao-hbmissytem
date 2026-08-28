@@ -144,8 +144,9 @@ $payments = $stmt->fetchAll();
 
     <form method="POST"
           action="delete.php"
-          style="display:inline;"
-          onsubmit="return confirm('Are you sure you want to delete this payment?');">
+                    style="display:inline;">
+
+                <?php echo csrfField(); ?>
 
         <input
             type="hidden"

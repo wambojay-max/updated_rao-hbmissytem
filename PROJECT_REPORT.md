@@ -1,9 +1,10 @@
 # RAO Hostel Booking and Management Information System
+
 ## Final Project Report
 
 ## 1. Project Overview
 
-RAO HBMIS is a web-based hostel booking and management information system developed with PHP, MySQL/MariaDB, HTML, CSS, and JavaScript. The system helps hostel administrators and staff manage student records, rooms, bookings, room allocations, payments, users, and reports from one application.
+RAO HBMIS is a standalone web-based hostel booking and management information system developed with PHP, MySQL/MariaDB, HTML, CSS, and JavaScript. The system helps hostel administrators and staff manage student records, rooms, bookings, room allocations, payments, users, and reports from one application. It is separate from the Ravine Academic System, although both systems use the same user credentials.
 
 The system also includes OpenAI-powered tools to support hostel operations without automatically changing official records.
 
@@ -30,6 +31,9 @@ The main objectives are to:
 - Session-based authentication.
 - Role-based access for administrators, wardens, and staff.
 - Administrator-only user management.
+- Separate lecturer and student roles are available for the academic system; RAO HBMIS remains focused on hostel operations.
+- Failed-login lockout and password reset workflows.
+- CSRF protection on state-changing forms.
 
 ### Student Management
 
@@ -72,6 +76,9 @@ The main objectives are to:
 - Show available and occupied rooms.
 - Show completed payment totals.
 - Provide report pages for major management areas.
+- Support CSV spreadsheet downloads.
+- Record important administrative actions in audit logs.
+- Queue booking notifications for email or SMS delivery.
 
 ### Artificial Intelligence Features
 
@@ -90,7 +97,8 @@ The application uses a simple PHP server-rendered architecture:
 - `api/` contains authenticated AI endpoints.
 - `database/` contains the database schema.
 - `assets/css/` contains shared styling.
-- `dashboard.php` provides the authenticated system dashboard.
+- `dashboard.php` provides the authenticated hostel system dashboard.
+- `student/` contains the hostel student's accommodation view.
 
 The application uses PDO prepared statements for database operations and JSON responses for the AI endpoints.
 
@@ -106,6 +114,9 @@ Main tables:
 - `bookings` - student room booking requests.
 - `allocations` - confirmed room assignments.
 - `payments` - student payment records.
+- `audit_logs` - important administrative actions.
+- `booking_notifications` - queued booking notifications.
+- `ai_allocation_suggestions` - AI suggestions awaiting human review.
 
 Foreign keys connect bookings, allocations, and payments to students and rooms. Restricting deletion protects records that are already referenced by other transactions.
 
@@ -120,6 +131,9 @@ Foreign keys connect bookings, allocations, and payments to students and rooms. 
 - AI endpoints validate request methods and input length.
 - OpenAI API keys are read from the server environment rather than browser code.
 - Room recommendations are not applied automatically.
+- CSRF tokens protect state-changing requests.
+- HTTPS is configured for local XAMPP access and session cookies are Secure, HttpOnly, and SameSite protected.
+- Account lockout limits repeated failed login attempts.
 
 ## 7. Installation and Configuration
 
@@ -129,7 +143,7 @@ Foreign keys connect bookings, allocations, and payments to students and rooms. 
 4. Open phpMyAdmin at `http://localhost/phpmyadmin`.
 5. Import `database/schema.sql`.
 6. Confirm the database name is `rao_hbmis`.
-7. Open `http://localhost/RAO_HBMIS/auth/login.php`.
+7. Open `https://localhost/RAO_HBMIS/auth/login.php`.
 
 Initial administrator account:
 
@@ -172,23 +186,20 @@ Manual testing should include:
 - OpenAI features require internet access and a valid API key.
 - AI recommendations require staff review before any allocation is created.
 - The interface is functional but can be expanded with richer validation and a more advanced design system.
-- Production deployment requires stronger database credentials, HTTPS, CSRF protection, audit logging, and centralized error logging.
+- The local HTTPS certificate is self-signed and must be replaced with a trusted certificate for public deployment.
+- Email and SMS notifications require a configured delivery provider and queue worker.
+- PDF report generation requires a PDF library such as Dompdf; CSV spreadsheet export is available.
 
 ## 10. Future Enhancements
 
 Recommended future improvements include:
 
-- Add CSRF protection to all state-changing forms.
-- Add password reset and account lockout features.
-- Add audit logs for important administrative actions.
-- Add pagination, filtering, and search to management tables.
-- Add email or SMS booking notifications.
-- Add a student self-service portal.
-- Add downloadable PDF and spreadsheet reports.
-- Add automated tests for validation and authorization.
-- Add an approval workflow for AI allocation suggestions.
-- Deploy with environment-based configuration and a dedicated database user.
+- Connect the notification queue to production email and SMS providers.
+- Add a background worker for reliable notification delivery and retries.
+- Add PDF report generation and broader table filtering across all management pages.
+- Expand automated integration and authorization tests.
+- Replace the local self-signed certificate with a trusted production certificate.
 
 ## 11. Conclusion
 
-RAO HBMIS provides a centralized solution for core hostel administration activities. It improves record organization, supports consistent room allocation rules, tracks payments, and gives authorized users a dashboard view of hostel operations. The OpenAI features extend the system with practical assistance while keeping final management decisions under staff control.
+RAO HBMIS provides a centralized solution for core hostel administration activities. It improves record organization, supports consistent room allocation rules, tracks payments, and gives authorized users a dashboard view of hostel operations. Its separate hostel login works with the same credentials as the Ravine Academic System, while keeping accommodation data and workflows independent. The OpenAI features extend the system with practical assistance while keeping final management decisions under staff control.

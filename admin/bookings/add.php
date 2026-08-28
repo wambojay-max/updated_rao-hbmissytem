@@ -6,6 +6,7 @@ require_once "../../auth/check_role.php";
 requireRole(["admin", "warden", "staff"]);
 
 require_once "../../config/database.php";
+require_once "../../config/notifications.php";
 
 $message = "";
 
@@ -153,6 +154,13 @@ $room = $roomCheck->fetch();
                         "status" => $status
                     ]);
 
+                    $recipientStmt = $pdo->prepare("SELECT email FROM students WHERE id = :id");
+                    $recipientStmt->execute(["id" => $student_id]);
+                    $recipient = $recipientStmt->fetchColumn();
+                    if ($recipient) {
+                        queueBookingNotification($pdo, (int) $pdo->lastInsertId(), $recipient, "Your RAO hostel booking request has been received.");
+                    }
+
                     header("Location: index.php");
                     exit;
 
@@ -197,6 +205,7 @@ $room = $roomCheck->fetch();
 
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Student</label>
         <br>

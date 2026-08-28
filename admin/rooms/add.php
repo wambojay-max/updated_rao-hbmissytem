@@ -112,6 +112,7 @@ if (
     <?php endif; ?>
 
     <form method="POST">
+        <?php echo csrfField(); ?>
 
         <label>Room Number</label><br>
         <input type="text" name="room_number" required>
