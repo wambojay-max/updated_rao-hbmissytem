@@ -1,0 +1,119 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;max-width:850px;margin:40px auto;line-height:1.5;color:#17201d}h1{color:#173b35;border-bottom:2px solid #b4603d;padding-bottom:10px}h2{color:#173b35;margin-top:28px}h3{color:#b4603d}li{margin:5px 0}code{background:#f1eee8;padding:2px 4px}pre{background:#f1eee8;padding:12px;white-space:pre-wrap}</style></head><body>
+<h1>Ravine Academic System</h1>
+<h2>Final Project Report</h2>
+<h2>1. Project Overview</h2>
+<p>Ravine Academic System is a standalone web application for academic student services. It provides students with course registration and published examination results, and gives lecturers an authorized workspace for entering results and maintaining student academic details.</p>
+<p>The application is intentionally separate from RAO HBMIS, the hostel booking system. Students may use the same email address and password in both systems, but each system has its own URL, session, pages, and responsibilities.</p>
+<h2>2. Project Objectives</h2>
+<p>The objectives are to:</p>
+<li>Provide a dedicated academic student portal.</li>
+<li>Allow students to register courses for an academic term.</li>
+<li>Allow students to view published examination results.</li>
+<li>Allow lecturers to enter and publish student results.</li>
+<li>Allow authorized lecturers to edit student academic details.</li>
+<li>Keep academic and hostel workflows independent.</li>
+<li>Reuse the shared user credentials without sharing application sessions.</li>
+<h2>3. Implemented Features</h2>
+<h3>Separate Authentication</h3>
+<li>Dedicated academic login page.</li>
+<li>Separate `ravine_academic_session` session cookie.</li>
+<li>Shared authentication records from the `rao_hbmis.users` table.</li>
+<li>Student accounts are routed to the academic student dashboard.</li>
+<li>Lecturer and administrator accounts are routed to the lecturer workspace.</li>
+<li>Link to the separate RAO Hostel System login.</li>
+<h3>Student Academic Portal</h3>
+<li>Student dashboard with academic service links.</li>
+<li>Course registration for the current academic term.</li>
+<li>Duplicate-safe course registration using a student, course, and term constraint.</li>
+<li>Published results view showing course code, title, academic year, score, and grade.</li>
+<li>Link to hostel accommodation that opens the separate hostel login.</li>
+<h3>Lecturer Workspace</h3>
+<li>Lecturer-only results entry page.</li>
+<li>Student and course selection from database records.</li>
+<li>Score validation from 0 to 100.</li>
+<li>Grade validation.</li>
+<li>Academic-year capture.</li>
+<li>Immediate publication of entered results.</li>
+<li>Link to edit student details through the authorized hostel administration student record page where permitted.</li>
+<h3>Security</h3>
+<li>Passwords are verified with PHP `password_verify()`.</li>
+<li>State-changing academic forms use CSRF tokens.</li>
+<li>Database operations use PDO prepared statements.</li>
+<li>Output is HTML escaped.</li>
+<li>Student pages require the student role.</li>
+<li>Lecturer pages require the lecturer or administrator role.</li>
+<li>Academic and hostel sessions use different cookie names.</li>
+<li>Both systems are served through HTTPS in the local XAMPP deployment.</li>
+<h2>4. System Architecture</h2>
+<p>The system uses a small PHP server-rendered architecture:</p>
+<li>`auth/` contains academic login and logout pages.</li>
+<li>`config/` contains the database connection and academic session security helpers.</li>
+<li>`student/` contains student dashboard, course registration, and results pages.</li>
+<li>`lecturer/` contains lecturer result-entry pages.</li>
+<li>`assets/` contains academic-system styling.</li>
+<p>The application connects to the shared `rao_hbmis` database for users, students, courses, registrations, and results. It does not include hostel booking pages or hostel administration navigation.</p>
+<h2>5. Database Design</h2>
+<p>Academic tables are stored in the shared `rao_hbmis` database:</p>
+<li>`users` - shared login credentials and account roles.</li>
+<li>`students` - student identity and academic profile details.</li>
+<li>`courses` - course code, title, credits, and active status.</li>
+<li>`course_registrations` - courses submitted by students for a term.</li>
+<li>`student_results` - scores, grades, academic years, and publication status.</li>
+<p>The `course_registrations` table prevents duplicate registration of the same course by the same student in the same term.</p>
+<h2>6. User Workflows</h2>
+<h3>Student</h3>
+<p><strong>Open `https://localhost/RAVINE_ACADEMIC/auth/login.php`.</strong></p>
+<p><strong>Sign in using the shared account credentials.</strong></p>
+<p><strong>Open **Register courses** to submit courses.</strong></p>
+<p><strong>Open **View results** to see published results.</strong></p>
+<p><strong>Open **Hostel accommodation** to move to the separate RAO Hostel login.</strong></p>
+<h3>Lecturer</h3>
+<p><strong>Open the academic login page.</strong></p>
+<p><strong>Sign in with a lecturer account.</strong></p>
+<p><strong>Select a student and course.</strong></p>
+<p><strong>Enter the academic year, score, and grade.</strong></p>
+<p><strong>Publish the result.</strong></p>
+<p><strong>Update student details through the authorized student-management page when needed.</strong></p>
+<h2>7. Installation and Configuration</h2>
+<p><strong>Install XAMPP.</strong></p>
+<p><strong>Place the application at `C:\xampp\htdocs\RAVINE_ACADEMIC`.</strong></p>
+<p><strong>Start Apache and MySQL.</strong></p>
+<p><strong>Ensure the shared `rao_hbmis` database exists.</strong></p>
+<p><strong>Apply the academic tables from `RAO_HBMIS/database/migrate_2026_08.sql`.</strong></p>
+<p><strong>Configure `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` in the server environment.</strong></p>
+<p><strong>Open `https://localhost/RAVINE_ACADEMIC/auth/login.php`.</strong></p>
+<p>The academic system uses the same database account configuration as the hostel system. Production deployments should use the dedicated least-privilege database user rather than the local root account.</p>
+<h2>8. Testing and Validation</h2>
+<p>Validation completed:</p>
+<li>PHP syntax checks passed for academic login, student, and lecturer pages.</li>
+<li>Academic and hostel login endpoints returned HTTP 200 over HTTPS.</li>
+<li>HTTP requests redirect to HTTPS.</li>
+<li>The academic session cookie is separate from the hostel session cookie.</li>
+<li>The academic database migration completed successfully.</li>
+<li>CSRF tokens are present on academic POST forms.</li>
+<p>Manual testing should include:</p>
+<li>Valid and invalid student login.</li>
+<li>Valid and invalid lecturer login.</li>
+<li>Course registration with valid and invalid courses.</li>
+<li>Duplicate course registration.</li>
+<li>Results visibility before and after publication.</li>
+<li>Score and grade validation.</li>
+<li>Unauthorized access to lecturer pages.</li>
+<li>Navigation from the academic system to the separate hostel login.</li>
+<h2>9. Limitations</h2>
+<li>The application currently shares the hostel database rather than using a separate database server.</li>
+<li>Results are published immediately by lecturers; a registrar approval workflow may be added later.</li>
+<li>Course administration pages for creating and editing courses are not yet included.</li>
+<li>Email notifications are not required for the academic workflow.</li>
+<li>The local HTTPS certificate is self-signed and should be replaced for public deployment.</li>
+<h2>10. Future Enhancements</h2>
+<li>Add registrar approval for published results.</li>
+<li>Add lecturer course assignments so lecturers see only their assigned courses.</li>
+<li>Add academic transcript downloads in PDF format.</li>
+<li>Add semester and academic-year management.</li>
+<li>Add student profile editing with approval rules.</li>
+<li>Add automated integration tests for registration and lecturer authorization.</li>
+<li>Introduce a dedicated academic database while synchronizing only approved identity records.</li>
+<h2>11. Conclusion</h2>
+<p>Ravine Academic System provides a focused academic portal for students and lecturers. It keeps course registration, results, and academic data separate from hostel accommodation while allowing students to use the same credentials in both applications. A clear hostel-system link preserves access to accommodation services without combining the two systems into one interface.</p>
+</body></html>

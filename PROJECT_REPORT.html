@@ -1,0 +1,165 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;max-width:850px;margin:40px auto;line-height:1.5;color:#17201d}h1{color:#173b35;border-bottom:2px solid #b4603d;padding-bottom:10px}h2{color:#173b35;margin-top:28px}h3{color:#b4603d}li{margin:5px 0}code{background:#f1eee8;padding:2px 4px}pre{background:#f1eee8;padding:12px;white-space:pre-wrap}</style></head><body>
+<h1>RAO Hostel Booking and Management Information System</h1>
+<h2>Final Project Report</h2>
+<h2>1. Project Overview</h2>
+<p>RAO HBMIS is a standalone web-based hostel booking and management information system developed with PHP, MySQL/MariaDB, HTML, CSS, and JavaScript. The system helps hostel administrators and staff manage student records, rooms, bookings, room allocations, payments, users, and reports from one application. It is separate from the Ravine Academic System, although both systems use the same user credentials.</p>
+<p>The system also includes OpenAI-powered tools to support hostel operations without automatically changing official records.</p>
+<h2>2. Project Objectives</h2>
+<p>The main objectives are to:</p>
+<li>Centralize hostel management records.</li>
+<li>Register and manage students.</li>
+<li>Manage hostel rooms and room availability.</li>
+<li>Record and track student bookings.</li>
+<li>Allocate rooms to students using hostel rules.</li>
+<li>Record student payments and payment status.</li>
+<li>Produce management summaries and reports.</li>
+<li>Control access according to user roles.</li>
+<li>Provide AI-assisted hostel questions and room suggestions.</li>
+<h2>3. Implemented Features</h2>
+<h3>Authentication and Authorization</h3>
+<li>User login and logout.</li>
+<li>Password verification using PHP password hashing.</li>
+<li>Session-based authentication.</li>
+<li>Role-based access for administrators, wardens, and staff.</li>
+<li>Administrator-only user management.</li>
+<li>Separate lecturer and student roles are available for the academic system; RAO HBMIS remains focused on hostel operations.</li>
+<li>Failed-login lockout and password reset workflows.</li>
+<li>CSRF protection on state-changing forms.</li>
+<h3>Student Management</h3>
+<li>Add, view, edit, and delete students.</li>
+<li>Store student ID, name, gender, phone, email, course, and year of study.</li>
+<li>Prevent duplicate student IDs and email addresses.</li>
+<h3>Room Management</h3>
+<li>Add, view, edit, and delete rooms.</li>
+<li>Store room number, room type, capacity, floor, gender, and status.</li>
+<li>Support Available, Occupied, and Maintenance statuses.</li>
+<li>Prevent duplicate room numbers.</li>
+<h3>Booking Management</h3>
+<li>Create, view, edit, and delete bookings.</li>
+<li>Link each booking to a student and room.</li>
+<li>Support Pending, Confirmed, and Cancelled statuses.</li>
+<li>Validate room availability and student-room gender compatibility.</li>
+<h3>Allocation Management</h3>
+<li>Allocate rooms to students with confirmed bookings.</li>
+<li>Track allocation, check-in, and check-out dates.</li>
+<li>Support Active, Completed, and Cancelled statuses.</li>
+<li>Check room capacity and gender compatibility.</li>
+<li>Update room status when an active allocation is created or completed.</li>
+<h3>Payment Management</h3>
+<li>Record, view, edit, and delete payments.</li>
+<li>Support Cash, M-Pesa, Bank, and Card methods.</li>
+<li>Track Pending, Completed, Failed, and Cancelled statuses.</li>
+<li>Prevent duplicate payment reference numbers.</li>
+<h3>Reports and Dashboard</h3>
+<li>Show student, room, booking, allocation, and payment totals.</li>
+<li>Show available and occupied rooms.</li>
+<li>Show completed payment totals.</li>
+<li>Provide report pages for major management areas.</li>
+<li>Support CSV spreadsheet downloads.</li>
+<li>Record important administrative actions in audit logs.</li>
+<li>Queue booking notifications for email or SMS delivery.</li>
+<h3>Artificial Intelligence Features</h3>
+<li>**AI Hostel Assistant:** answers staff questions using current summary data from students, rooms, bookings, allocations, and payments.</li>
+<li>**AI Room Recommendations:** suggests suitable rooms for confirmed bookings that have no active allocation.</li>
+<li>AI recommendations are display-only and do not create or modify bookings or allocations.</li>
+<li>API requests are handled server-side so the OpenAI key is not exposed in browser JavaScript.</li>
+<h2>4. System Architecture</h2>
+<p>The application uses a simple PHP server-rendered architecture:</p>
+<li>`auth/` contains login, logout, and role checks.</li>
+<li>`config/` contains database and OpenAI configuration.</li>
+<li>`admin/` contains management and reporting pages.</li>
+<li>`api/` contains authenticated AI endpoints.</li>
+<li>`database/` contains the database schema.</li>
+<li>`assets/css/` contains shared styling.</li>
+<li>`dashboard.php` provides the authenticated hostel system dashboard.</li>
+<li>`student/` contains the hostel student&#39;s accommodation view.</li>
+<p>The application uses PDO prepared statements for database operations and JSON responses for the AI endpoints.</p>
+<h2>5. Database Design</h2>
+<p>The database is named `rao_hbmis` and is created by `database/schema.sql`.</p>
+<p>Main tables:</p>
+<li>`users` - system users and roles.</li>
+<li>`students` - student profiles.</li>
+<li>`rooms` - room details and availability.</li>
+<li>`bookings` - student room booking requests.</li>
+<li>`allocations` - confirmed room assignments.</li>
+<li>`payments` - student payment records.</li>
+<li>`audit_logs` - important administrative actions.</li>
+<li>`booking_notifications` - queued booking notifications.</li>
+<li>`ai_allocation_suggestions` - AI suggestions awaiting human review.</li>
+<p>Foreign keys connect bookings, allocations, and payments to students and rooms. Restricting deletion protects records that are already referenced by other transactions.</p>
+<h2>6. Security Measures</h2>
+<li>Passwords are stored using `password_hash()`.</li>
+<li>Passwords are checked with `password_verify()`.</li>
+<li>Protected pages require an authenticated session.</li>
+<li>Role checks limit access to sensitive operations.</li>
+<li>Database input uses prepared statements.</li>
+<li>Displayed database values use HTML escaping.</li>
+<li>AI endpoints validate request methods and input length.</li>
+<li>OpenAI API keys are read from the server environment rather than browser code.</li>
+<li>Room recommendations are not applied automatically.</li>
+<li>CSRF tokens protect state-changing requests.</li>
+<li>HTTPS is configured for local XAMPP access and session cookies are Secure, HttpOnly, and SameSite protected.</li>
+<li>Account lockout limits repeated failed login attempts.</li>
+<h2>7. Installation and Configuration</h2>
+<p><strong>Install XAMPP.</strong></p>
+<p><strong>Copy the project to `C:\xampp\htdocs\RAO_HBMIS`.</strong></p>
+<p><strong>Start Apache and MySQL in XAMPP.</strong></p>
+<p><strong>Open phpMyAdmin at `http://localhost/phpmyadmin`.</strong></p>
+<p><strong>Import `database/schema.sql`.</strong></p>
+<p><strong>Confirm the database name is `rao_hbmis`.</strong></p>
+<p><strong>Open `https://localhost/RAO_HBMIS/auth/login.php`.</strong></p>
+<p>Initial administrator account:</p>
+<li>Email: `admin@rao-hbmis.local`</li>
+<li>Password: `Admin@123`</li>
+<p>The password should be changed after the first login.</p>
+<p>To enable AI features, configure the server environment:</p>
+<p>```powershell</p>
+<p>setx OPENAI_API_KEY &quot;your-openai-api-key&quot;</p>
+<p>setx OPENAI_MODEL &quot;gpt-4o-mini&quot;</p>
+<pre>
+
+Restart the XAMPP Control Panel and Apache after configuring the environment. PHP cURL must also be enabled.
+
+## 8. Testing and Validation
+
+The following validation was completed:
+
+- PHP syntax checks passed for the OpenAI configuration, AI endpoints, and dashboard.
+- Editor error checks found no errors in the changed PHP files.
+- Database schema was reviewed against the SQL queries and form fields used by the application.
+- The GitHub repository was updated successfully on the `main` branch.
+
+Manual testing should include:
+
+- Login with valid and invalid credentials.
+- Access control for each role.
+- Creating and editing students, rooms, bookings, allocations, and payments.
+- Room capacity and gender validation.
+- Database import through phpMyAdmin.
+- AI assistant and recommendation behavior with a valid API key.
+- Behavior when MySQL or OpenAI is unavailable.
+
+## 9. Limitations
+
+- The system currently depends on a local XAMPP installation.
+- OpenAI features require internet access and a valid API key.
+- AI recommendations require staff review before any allocation is created.
+- The interface is functional but can be expanded with richer validation and a more advanced design system.
+- The local HTTPS certificate is self-signed and must be replaced with a trusted certificate for public deployment.
+- Email and SMS notifications require a configured delivery provider and queue worker.
+- PDF report generation requires a PDF library such as Dompdf; CSV spreadsheet export is available.
+
+## 10. Future Enhancements
+
+Recommended future improvements include:
+
+- Connect the notification queue to production email and SMS providers.
+- Add a background worker for reliable notification delivery and retries.
+- Add PDF report generation and broader table filtering across all management pages.
+- Expand automated integration and authorization tests.
+- Replace the local self-signed certificate with a trusted production certificate.
+
+## 11. Conclusion
+
+RAO HBMIS provides a centralized solution for core hostel administration activities. It improves record organization, supports consistent room allocation rules, tracks payments, and gives authorized users a dashboard view of hostel operations. Its separate hostel login works with the same credentials as the Ravine Academic System, while keeping accommodation data and workflows independent. The OpenAI features extend the system with practical assistance while keeping final management decisions under staff control.
+</body></html>
