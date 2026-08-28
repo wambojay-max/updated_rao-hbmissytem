@@ -30,7 +30,7 @@ require_once "../config/security.php";
     </form>
 
     <p><a href="forgot_password.php">Forgot your password?</a></p>
-    <p><a href="https://localhost/RAVINE_ACADEMIC/auth/login.php">Go to Academic System</a></p>
+    <p><a href="https://localhost/UPDATED_RAVINE_ACADEMIC/auth/login.php">Go to Academic System</a></p>
 
 </body>
 </html>
